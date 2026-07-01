@@ -1,5 +1,6 @@
 #include <SDL3/SDL.h>
 #include <iostream>
+//Adding a comment to test git
 int main(int argc, char* argv[]) {
     SDL_Init(SDL_INIT_VIDEO);
 
