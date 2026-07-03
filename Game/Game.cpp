@@ -2,9 +2,7 @@
 #include <iostream>
 #include "../Engine/Renderer.h"
 
-// I couldn't figure out how to make it not clear every frame, so I just made it so that you can press enter to go to the next stage and see the next set of shapes.
 
-// That means that it looks like there are a lot more shapes then there actually are in each stage, but my for loop demonstrates that the numbers are correct :]
 int main(int argc, char* argv[]) {
     Renderer renderer;
     SDL_Init(SDL_INIT_VIDEO);
