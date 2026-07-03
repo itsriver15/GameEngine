@@ -1,50 +1,78 @@
 #include <SDL3/SDL.h>
 #include <iostream>
-//Adding a comment to test git
+#include "../Engine/Renderer.h"
+
+// I couldn't figure out how to make it not clear every frame, so I just made it so that you can press enter to go to the next stage and see the next set of shapes.
+
+// That means that it looks like there are a lot more shapes then there actually are in each stage, but my for loop demonstrates that the numbers are correct :]
 int main(int argc, char* argv[]) {
+    int stage = 0;
+    Renderer renderer;
     SDL_Init(SDL_INIT_VIDEO);
-
-    SDL_Window* window = SDL_CreateWindow("SDL3 Project", 1280, 1024, 0);
-    if (window == nullptr) {
-        std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-        SDL_Quit();
-        return 1;
-    }
-
-    SDL_Renderer* renderer = SDL_CreateRenderer(window, NULL);
-    if (renderer == nullptr) {
-        std::cerr << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
-        SDL_DestroyWindow(window);
-        SDL_Quit();
-        return 1;
-    }
+    renderer.CreateWindow(1280, 1024);
+    renderer.CreateRenderer();
 
     SDL_Event e;
     bool quit = false;
 
-    // Define a rectangle
-    SDL_FRect greenSquare{ 270, 190, 200, 200 };
+    while (!quit)
+    {
+        while (SDL_PollEvent(&e))
+        {
+            if (e.type == SDL_EVENT_QUIT)
+            {
+               quit = true;
+            }
 
-    while (!quit) {
-        while (SDL_PollEvent(&e)) {
-            if (e.type == SDL_EVENT_QUIT) {
-                quit = true;
+            if (e.type == SDL_EVENT_KEY_DOWN &&
+                e.key.key == SDLK_RETURN)
+            {
+                stage++;
+                
             }
         }
-        int value;
-        for (int i = 0; i < 1000000; i++) {
-            SDL_SetRenderDrawColor(renderer, rand() % 256, rand() % 256, rand() % 256, 255); // Set render draw color to black
-            SDL_RenderClear(renderer); // Clear the renderer
 
-            SDL_SetRenderDrawColor(renderer, rand() % 256, rand() % 256, rand() % 256, 255); // Set render draw color to green
-            SDL_RenderFillRect(renderer, &greenSquare); // Render the rectangle
-        SDL_RenderPresent(renderer); // Render the screen
+
+        renderer.SetColor(0, 0, 0, 255);
+        renderer.ClearScreen();
+        int i = 0;
+        if (stage == 0)
+        {
+            // Draw rectangles - I have it only do one since the number of triangles was unspecified.
+                renderer.SetColor(rand() % 256, rand() % 256, rand() % 256, 255);
+
+                int width = rand() % 100 + 20;
+                int height = rand() % 100 + 20;
+
+                renderer.DrawRectangle(rand() % (1280 - width), rand() % (1024 - height), width, height);
         }
+        else if (stage == 1)
+        {
+            i = 0;
+            // Draw all lines
+            for (i; i < 10; i++)
+            {
+                renderer.SetColor(rand() % 256, rand() % 256, rand() % 256, 255);
+
+                renderer.DrawLine(rand() % 1280, rand() % 1024, rand() % 1280, rand() % 1024);
+            }
+        }
+        else if (stage == 2)
+        {
+            i = 0;
+            // Draw all points
+            for (i; i < 20; i++)
+            {
+                renderer.SetColor(rand() % 256, rand() % 256, rand() % 256, 255);
+
+                renderer.DrawPoint(rand() % 1280, rand() % 1024);
+            }
+        }
+        else {
+            break;
+        }
+
+        renderer.PresentScreen();
     }
-
-    SDL_DestroyRenderer(renderer);
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-
     return 0;
 }
