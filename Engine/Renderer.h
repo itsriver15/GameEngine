@@ -7,6 +7,7 @@ public:
 	void CreateRenderer();
 	void ClearScreen();
 	void SetColor(int, int, int, int);
+	void SetColorFloat(float, float, float, float);
 	void DrawRectangle(float, float, float, float);
 	void DrawRectangle(float, float, float);
 	void DrawLine(float, float, float, float);

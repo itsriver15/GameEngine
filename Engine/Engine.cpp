@@ -6,7 +6,4 @@
 #include <iostream>
 
 // TODO: This is an example of a library function
-void fnEngine()
-{
-	std::cout << "Hello from Engine!\n";
-}
+

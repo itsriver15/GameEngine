@@ -39,6 +39,11 @@ void Renderer::SetColor(int r, int g, int b, int a)
 	SDL_SetRenderDrawColor(renderer, r, g, b, a);
 }
 
+void Renderer::SetColorFloat(float r, float g, float b, float a)
+{
+	SDL_SetRenderDrawColorFloat(renderer, r, g, b, a);
+}
+
 void Renderer::DrawRectangle(float x, float y, float sideA, float sideB)
 {
 	SDL_FRect rect{ x, y, sideA, sideB };
