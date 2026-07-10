@@ -4,8 +4,10 @@
 #include <string>
 #include <SDL3/SDL.h>
 
-void Renderer::CreateWindow(int width, int height)
+void Renderer::Initialize(int width, int height)
 {
+	SDL_Init(SDL_INIT_VIDEO);
+
 	window = SDL_CreateWindow("SDL3 Project", width, height, 0);
 
 	if (window == nullptr)
@@ -13,10 +15,8 @@ void Renderer::CreateWindow(int width, int height)
 		std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
 		SDL_Quit();
 	}
-}
 
-void Renderer::CreateRenderer()
-{
+
 	renderer = SDL_CreateRenderer(window, nullptr);
 
 	if (renderer == nullptr)
@@ -27,51 +27,13 @@ void Renderer::CreateRenderer()
 		SDL_DestroyWindow(window);
 		SDL_Quit();
 	}
+
+	SDL_SetRenderVSync(renderer, 1);
+
+
 }
 
-
-void Renderer::ClearScreen() {
-	SDL_RenderClear(renderer);
-}
-
-void Renderer::SetColor(int r, int g, int b, int a)
-{
-	SDL_SetRenderDrawColor(renderer, r, g, b, a);
-}
-
-void Renderer::SetColorFloat(float r, float g, float b, float a)
-{
-	SDL_SetRenderDrawColorFloat(renderer, r, g, b, a);
-}
-
-void Renderer::DrawRectangle(float x, float y, float sideA, float sideB)
-{
-	SDL_FRect rect{ x, y, sideA, sideB };
-	SDL_RenderFillRect(renderer, &rect);
-}
-
-// Overloaded function to draw a square
-void Renderer::DrawRectangle(float x, float y, float side)
-{
-	SDL_FRect rect{ x, y, side, side };
-	SDL_RenderFillRect(renderer, &rect);
-}
-
-void Renderer::DrawLine(float x1, float y1, float x2, float y2)
-{
-	SDL_RenderLine(renderer, x1, y1, x2, y2);
-}
-
-void Renderer::DrawPoint(float x, float y)
-{
-	SDL_RenderPoint(renderer, x, y);
-}
-void Renderer::PresentScreen()
-{
-	SDL_RenderPresent(renderer);
-}	
-
-Renderer::~Renderer() {
+void Renderer::Shutdown() {
 	if (renderer != nullptr) {
 		SDL_DestroyRenderer(renderer);
 	}
@@ -81,3 +43,46 @@ Renderer::~Renderer() {
 
 	SDL_Quit();
 }
+
+
+void Renderer::Clear() const {
+	SDL_RenderClear(renderer);
+}
+
+void Renderer::Present() const{
+	SDL_RenderPresent(renderer);
+}
+
+void Renderer::SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a) const {
+	SDL_SetRenderDrawColor(renderer, r, g, b, a);
+}
+
+void Renderer::SetColor(float r, float g, float b, float a) const {
+	SDL_SetRenderDrawColorFloat(renderer, r, g, b, a);
+}
+
+
+void Renderer::DrawPoint(float x, float y) const {
+	SDL_RenderPoint(renderer, x, y);
+}
+
+void Renderer::DrawLine(float x1, float y1, float x2, float y2) const {
+	SDL_RenderLine(renderer, x1, y1, x2, y2);
+}
+
+
+void Renderer::DrawFillRect(float x, float y, float w, float h) const{
+	SDL_FRect rect{ x, y, w, h };
+	SDL_RenderFillRect(renderer, &rect);
+}
+
+
+void Renderer::DrawRect(float x, float y, float w, float h) const {
+	SDL_FRect rect{ x, y, w, h };
+	SDL_RenderRect(renderer, &rect);
+}
+
+
+
+
+

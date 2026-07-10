@@ -1,30 +1,67 @@
 #include <SDL3/SDL.h>
-#include <iostream>
 #include "../Engine/Engine.h"
-#include <vector>
 using namespace nu;
 using namespace std;
 
+struct Transform {
+    Vector2 position;
+    float rotation;
+    float scale;
+
+};
+
+class Actor {
+public:
+    Actor() = default;
+    Actor(const Transform& transform) : m_transform{ transform } {}
+
+    void Update(float dt) {
+        m_transform.position += (m_velocity * dt);
+        m_velocity *= 0.997f;
+
+        m_transform.position.x = Wrap(0.0f, 1280.0f, m_transform.position.x);
+        m_transform.position.y = Wrap(0.0f, 1024.0f, m_transform.position.y);
+    }
+
+    void Draw(const Renderer& renderer) const {
+        renderer.SetColor(1.0f, 1.0f, 1.0f);
+        renderer.DrawFillRect(m_transform.position.x - (m_transform.scale * 0.5f), m_transform.position.y - (m_transform.scale * 0.5f), m_transform.scale, m_transform.scale);
+    }
+
+    const Transform& GetTransform() const { return m_transform; }
+    void SetPosition(const Vector2& position) { m_transform.position = position; }
+    void SetRotation(float rotation) { m_transform.rotation = rotation; }
+    void SetScale(float scale) { m_transform.scale = scale; }
+
+    const Vector2 GetVelocity() const { return m_velocity; }
+    void SetVelocity(const Vector2& velocity) { m_velocity = velocity; }
+
+protected:
+    Transform m_transform;
+    Vector2 m_velocity{ 0, 0 };
+};
 
 int main(int argc, char* argv[]) {
 
     //INITIALIZATION
     Renderer renderer;
-    SDL_Init(SDL_INIT_VIDEO);
-    renderer.CreateWindow(1280, 1024);
-    renderer.CreateRenderer();
-    Vector2 val(0.5f, 0.5f);
+    renderer.Initialize(1280, 1024);
 
-    vector<Vector2> v;
+    Input input;
+    input.Initialize();
 
+    Time time;
 
-    for (int i = 0; i < 300; i++) {
-        Vector2 vec(RandomFloat(1280), RandomFloat(1024));
-        v.push_back(vec);
-	}
+    Actor player{ Transform{ Vector2{640.0f, 512.0f }, 0.0f, 50.0f } };
 
-    bool quit = false;
+    Vector2 position{ 640.0f, 512.0f };
+    Vector2 velocity(0.0f, 0.0f);
+    float speed = 800.0f;
+    
+    vector<Vector2> points;
+
 	//MAIN LOOP
+    bool quit = false;
     while (!quit)
     {
         SDL_Event event;
@@ -35,47 +72,90 @@ int main(int argc, char* argv[]) {
                quit = true;
             }
 
+            if (event.type == SDL_EVENT_KEY_DOWN && event.key.scancode == SDL_SCANCODE_ESCAPE) {
+                quit = true;
+            }
+
         }
-        //RENDER
-
-        renderer.SetColor(0, 0, 0, 255);
-        renderer.ClearScreen();
-        int i = 0;
-            // Draw rectangles - I have it only do one since the number of triangles was unspecified.
-            for (i; i < 3; i++) {
-                renderer.SetColor(RandomInt(256), RandomInt(256), RandomInt(256), 255);
-
-                int width = rand() % 100 + 20;
-                int height = rand() % 100 + 20;
-
-                renderer.DrawRectangle(RandomInt(1280 - width), RandomInt(1024 - height), width, height );
-            }
-
-
-      
-            i = 0;
-            // Draw all lines
-            for (i; i < 10; i++)
-            {
-                renderer.SetColor(RandomInt(256), RandomInt(256), RandomInt(256), 255);
-
-                renderer.DrawLine(RandomInt(1280), RandomInt(1024), RandomInt(1280), RandomInt(1024));
-                
-            }
-
+        //ENGINE
         
-            i = 0;
-            // Draw all points
-            for (i; i < v.size(); i++)
-            {
-                renderer.SetColor(RandomInt(256), RandomInt(256), RandomInt(256), 255);
+        input.Update();
+        time.Tick();
 
-                v[i] = v[i] + val;
-                renderer.DrawPoint(v[i].x, v[i].y);
-            }
        
 
-        renderer.PresentScreen();
+        //if (input.GetKeyPressed(SDL_SCANCODE_Q)) cout << "pressed\n";
+        //if (input.GetKeyDown(SDL_SCANCODE_Q)) cout << "down\n";
+        //if (input.GetKeyReleased(SDL_SCANCODE_Q)) cout << "released\n";
+
+        //if (input.GetButtonPressed(Input::MouseButton::Left)) cout << "button pressed\n";
+        //if (input.GetButtonDown(Input::MouseButton::Left)) cout << "button down\n";
+        //if (input.GetButtonReleased(Input::MouseButton::Left)) cout << "button released\n";
+        
+        /*if (input.GetButtonPressed(Input::MouseButton::Left)) {
+            points.push_back(input.GetMousePosition());
+        }*/
+
+
+        if (input.GetButtonDown(Input::MouseButton::Left)) {
+            if (points.empty()) {
+                points.push_back(input.GetMousePosition());
+            }
+            else {
+                Vector2 v = points.back() - input.GetMousePosition();
+
+                if (v.Length() > 30.0f) {
+                    points.push_back(input.GetMousePosition());
+                }
+            }
+        }
+
+        //undo points
+
+        if (input.GetButtonPressed(Input::MouseButton::Right)) {
+            
+            if(!points.empty()) points.pop_back();
+        }
+
+
+
+        Vector2 force(0.0f, 0.0f); 
+
+        if (input.GetKeyDown(SDL_SCANCODE_A)) velocity.x = -speed;
+        if (input.GetKeyDown(SDL_SCANCODE_D)) velocity.x = +speed;
+        if (input.GetKeyDown(SDL_SCANCODE_W)) velocity.y = -speed;
+        if (input.GetKeyDown(SDL_SCANCODE_S)) velocity.y = +speed;
+
+
+        player.SetVelocity(player.GetVelocity() + (force * time.GetDeltaTime()));
+        player.Update(time.GetDeltaTime());
+
+       /* velocity += (force * time.GetDeltaTime());
+
+        position += (velocity * time.GetDeltaTime());
+
+        position.x = Wrap(0.0f, 1280.0f, position.x);
+        position.y = Wrap(0.0f, 1024.0f, position.y);*/
+
+
+        //RENDER
+        renderer.SetColor(0.0f, 0.0f, 0.0f);
+        renderer.Clear();
+        // unsigned int (0) - 1 = MAX_NUMBER
+        for (int i = 0; i < (int)points.size() - 1; i++)
+        {
+            renderer.SetColor(RandomFloat(), RandomFloat(), RandomFloat());
+            renderer.DrawLine(points[i].x, points[i].y, points[i+1].x, points[i+1].y);
+        }
+        //character
+        player.Draw(renderer);
+        /*renderer.SetColor(1.0f, 1.0f, 1.0f);
+        renderer.DrawFillRect(position.x - 20, position.y - 20, 40, 40);*/
+
+        renderer.Present();
     }
+
+    renderer.Shutdown();
+
     return 0;
 }

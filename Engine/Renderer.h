@@ -3,17 +3,23 @@
 class Renderer
 {
 public:
-	void CreateWindow(int, int);
-	void CreateRenderer();
-	void ClearScreen();
-	void SetColor(int, int, int, int);
-	void SetColorFloat(float, float, float, float);
-	void DrawRectangle(float, float, float, float);
-	void DrawRectangle(float, float, float);
-	void DrawLine(float, float, float, float);
-	void DrawPoint(float, float);
-	void PresentScreen();
-	~Renderer();
+	void Initialize(int, int);
+	void Shutdown();
+
+	void Clear() const;
+	void Present() const;
+
+	void SetColor(Uint8 r, Uint8 g, Uint8 b, Uint8 a = 255) const;
+	void SetColor(float r, float g, float b, float = 1.0f) const;
+
+
+	void DrawPoint(float x, float y) const;
+	void DrawLine(float x1, float y1, float x2, float y2) const;
+	void DrawFillRect(float x, float y, float w, float h) const;
+	void DrawRect(float x, float y, float w, float h) const;
+	
+	
+	
 private:
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
