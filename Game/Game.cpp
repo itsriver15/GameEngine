@@ -3,43 +3,12 @@
 using namespace nu;
 using namespace std;
 
-struct Transform {
-    Vector2 position;
-    float rotation;
-    float scale;
 
-};
 
-class Actor {
-public:
-    Actor() = default;
-    Actor(const Transform& transform) : m_transform{ transform } {}
 
-    void Update(float dt) {
-        m_transform.position += (m_velocity * dt);
-        m_velocity *= 0.997f;
 
-        m_transform.position.x = Wrap(0.0f, 1280.0f, m_transform.position.x);
-        m_transform.position.y = Wrap(0.0f, 1024.0f, m_transform.position.y);
-    }
 
-    void Draw(const Renderer& renderer) const {
-        renderer.SetColor(1.0f, 1.0f, 1.0f);
-        renderer.DrawFillRect(m_transform.position.x - (m_transform.scale * 0.5f), m_transform.position.y - (m_transform.scale * 0.5f), m_transform.scale, m_transform.scale);
-    }
 
-    const Transform& GetTransform() const { return m_transform; }
-    void SetPosition(const Vector2& position) { m_transform.position = position; }
-    void SetRotation(float rotation) { m_transform.rotation = rotation; }
-    void SetScale(float scale) { m_transform.scale = scale; }
-
-    const Vector2 GetVelocity() const { return m_velocity; }
-    void SetVelocity(const Vector2& velocity) { m_velocity = velocity; }
-
-protected:
-    Transform m_transform;
-    Vector2 m_velocity{ 0, 0 };
-};
 
 int main(int argc, char* argv[]) {
 
@@ -52,11 +21,13 @@ int main(int argc, char* argv[]) {
 
     Time time;
 
-    Actor player{ Transform{ Vector2{640.0f, 512.0f }, 0.0f, 50.0f } };
-
     Vector2 position{ 640.0f, 512.0f };
     Vector2 velocity(0.0f, 0.0f);
     float speed = 800.0f;
+
+    Transform transform{ position, 0.0f, 50.0f };
+
+    Actor player{ transform };
     
     vector<Vector2> points;
 
@@ -121,10 +92,10 @@ int main(int argc, char* argv[]) {
 
         Vector2 force(0.0f, 0.0f); 
 
-        if (input.GetKeyDown(SDL_SCANCODE_A)) velocity.x = -speed;
-        if (input.GetKeyDown(SDL_SCANCODE_D)) velocity.x = +speed;
-        if (input.GetKeyDown(SDL_SCANCODE_W)) velocity.y = -speed;
-        if (input.GetKeyDown(SDL_SCANCODE_S)) velocity.y = +speed;
+        if (input.GetKeyDown(SDL_SCANCODE_A)) force.x = -speed;
+        if (input.GetKeyDown(SDL_SCANCODE_D)) force.x = +speed;
+        if (input.GetKeyDown(SDL_SCANCODE_W)) force.y = -speed;
+        if (input.GetKeyDown(SDL_SCANCODE_S)) force.y = +speed;
 
 
         player.SetVelocity(player.GetVelocity() + (force * time.GetDeltaTime()));
