@@ -17,11 +17,16 @@ public:
 	void DrawLine(float x1, float y1, float x2, float y2) const;
 	void DrawFillRect(float x, float y, float w, float h) const;
 	void DrawRect(float x, float y, float w, float h) const;
-	
-	
-	
+
+	int GetWidth() const { return m_width; }
+	int GetHeight() const { return m_height; }
+
+
 private:
 	SDL_Window* window = nullptr;
 	SDL_Renderer* renderer = nullptr;
-	
+
+	int m_width = 0;
+	int m_height = 0;
+
 };

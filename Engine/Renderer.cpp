@@ -7,7 +7,8 @@
 void Renderer::Initialize(int width, int height)
 {
 	SDL_Init(SDL_INIT_VIDEO);
-
+	m_width = width;
+	m_height = height;
 	window = SDL_CreateWindow("SDL3 Project", width, height, 0);
 
 	if (window == nullptr)
