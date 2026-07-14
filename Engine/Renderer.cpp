@@ -1,8 +1,11 @@
 #include "pch.h"
 #include "Renderer.h"
+#include "Vector2.h"
+#include "Model.h"
 #include <iostream>
 #include <string>
 #include <SDL3/SDL.h>
+using namespace nu;
 
 void Renderer::Initialize(int width, int height)
 {
@@ -81,6 +84,30 @@ void Renderer::DrawFillRect(float x, float y, float w, float h) const{
 void Renderer::DrawRect(float x, float y, float w, float h) const {
 	SDL_FRect rect{ x, y, w, h };
 	SDL_RenderRect(renderer, &rect);
+}
+
+void Renderer::DrawModel (const class Model& model, const struct Transform& transform) const
+{
+	//SetColor(model.GetColor().r, model.GetColor().g, model.GetColor().b, 1.0f);
+
+	SetColor(1.0f, 1.0f, 1.0f, 1.0f);
+	for (auto mesh : model.GetMeshes()) {
+		auto& points = mesh.GetPoints();
+
+
+		for (int i = 0; i + 1 < mesh.GetPoints().size(); i++) {
+			Vector2 v1 = points.at(i);
+			Vector2 v2 = points.at(i + 1);
+
+			v1 *= transform.scale;
+			v1 *= transform.scale;
+
+			v1 += transform.position;
+			v1 += transform.position;
+			DrawLine(v1.x, v1.y, v2.x, v2.y);
+		}
+	}
+
 }
 
 

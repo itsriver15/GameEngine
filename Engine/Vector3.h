@@ -6,10 +6,15 @@
 namespace nu {
     struct Vector3
     {
-        float x, y, z;
+        union {
+            struct { float x, y, z; };
+            struct { float r, g, b; };
+
+        };
+        
         Vector3() = default;
         Vector3(float x, float y, float z) : x{ x }, y{ y }, z{ z } {}
-        Vector3(float a) : x{ a }, y{ a }, z{ a } {}
+        explicit Vector3(float a) : x{ a }, y{ a }, z{ a } {}
 
 
 
@@ -120,19 +125,19 @@ namespace nu {
         }
 
         float Length() const {
-            return sqrtf(x * x + y * y + z * z);
+            return sqrtf((float)pow(x, 2) + (float)pow(y,2) + (float)pow(z,2));
         }
 
         float LengthSq() const {
-            return x * x + y * y + z * z;
+            return (float)pow(x,2) + (float)pow(y,2) + (float)pow(z,2);
         }
 
         Vector3 Normalized() const {
             return *this / Length();
         }
 
-
-
+        
 
     };
+    using Color = Vector3;
 }

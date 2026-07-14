@@ -1,5 +1,10 @@
 #pragma once
 #include <SDL3/SDL.h>
+#include "Transform.h"
+#include "Mesh.h"
+#include "Model.h"
+using namespace nu;
+
 class Renderer
 {
 public:
@@ -17,6 +22,8 @@ public:
 	void DrawLine(float x1, float y1, float x2, float y2) const;
 	void DrawFillRect(float x, float y, float w, float h) const;
 	void DrawRect(float x, float y, float w, float h) const;
+
+	void DrawModel(const class Model& model, const struct Transform& transform) const;
 
 	int GetWidth() const { return m_width; }
 	int GetHeight() const { return m_height; }

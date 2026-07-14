@@ -1,12 +1,14 @@
 #pragma once
 #include "Transform.h"
 #include "Renderer.h"
+#include "Model.h"
 
 namespace nu {
     class Actor {
     public:
         Actor() = default;
-        Actor(const Transform& transform) : m_transform{ transform } {}
+        Actor(const Transform& transform) : m_transform{ transform } {};
+        Actor(const Transform& transform, const Model& model) : m_transform{ transform }, m_model{ model } {};
 
         void Update(float dt);
         void Draw(const Renderer& renderer) const;
@@ -22,5 +24,6 @@ namespace nu {
     protected:
         Transform m_transform;
         Vector2 m_velocity{ 0, 0 };
+        Model m_model;
     };
 };

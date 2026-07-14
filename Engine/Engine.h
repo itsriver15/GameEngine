@@ -3,6 +3,7 @@
 #include "Random.h"
 #include "Vector2.h"
 #include "Vector3.h"
+#include "Mesh.h"
 #include "Renderer.h"
 #include "Input.h"
 #include "GameTime.h"

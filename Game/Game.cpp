@@ -15,13 +15,15 @@ int main(int argc, char* argv[]) {
 
     Time time;
 
+    Mesh mesh{ {{-3,3},{3,3},{0,0} }, {1.0f, 1.0f, 1.0f} };
+
     Vector2 position{ 640.0f, 512.0f };
     Vector2 velocity(0.0f, 0.0f);
     float speed = 800.0f;
 
     Transform transform{ position, 0.0f, 50.0f };
 
-    Actor player{ transform };
+    Actor player{ transform, vector<Mesh>{mesh} };
     
     vector<Vector2> points;
 

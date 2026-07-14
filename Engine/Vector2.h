@@ -10,7 +10,7 @@ namespace nu {
 		float x, y;
 		Vector2() = default;
 		Vector2(float x, float y) : x{ x }, y{ y } {}
-		Vector2(float z) : x{ z }, y{ z } {}
+		explicit Vector2(float z) : x{ z }, y{ z } {}
 
       
 
@@ -114,11 +114,11 @@ namespace nu {
         }
 
         float Length() const{
-            return sqrtf(pow(x, 2) + pow(y, 2));
+            return sqrtf((float)pow(x, 2) + (float)pow(y, 2));
         }
 
         float LengthSq() const {
-            return pow(x, 2) + pow(y, 2);
+            return (float)pow(x, 2) + (float)pow(y, 2);
         }
 
         Vector2 Normalized() const {
