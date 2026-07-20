@@ -6,21 +6,41 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    
+    //INITALIZE
     engine.Initialize();
 
-    Mesh mesh{ {{0,1},{2,0},{0,-1},{.5,0},{0,1}}, {1.0f,1.0f,1.0f} };
+    Mesh mesh1{ {{ 0, -1 }, { 1, 0 }, { 0, 1 }, { 3, 0 }, { 0, -1 } }, { 0.694f, 0.0f, 1.0f } };
+    Mesh mesh2{ {{ 0, -1 }, { -1, -2 }, { -3, 0 }, { -1, 2 }, { 0, 1 }}, {1.0f, 0.902f, 0.38f} };
+    Mesh mesh3{ {{ -1, -1 }, { 0, 0 }, { -1, 1 }, { -2, 0 }, { -1, -1 }}, {0.53f, 1.0f, 0.7f} };
+    Model model = vector<Mesh>{ mesh1, mesh2, mesh3};
 
-    Transform transform{{640.0f,512.0f}, 0.0f, 50.0f };
+    Scene scene;
+   
 
-    float speed = 800.0f;
+    PlayerDesc playerDesc;
 
-    Player player{ speed, transform, vector<Mesh>{mesh} };
+    playerDesc.name = "Player";
+    playerDesc.model = model;
+    playerDesc.transform = Transform{ Vector2{ 640.0f,512.0f }, 0.0f, 50.0f };
+    playerDesc.velocity = Vector2{ 0,0 };
+    playerDesc.speed = 2000.0f;
+
+    Player* player = new Player{playerDesc};
+    scene.AddActor(player);
+    /*Enemy* enemy = new Enemy{ 2000.0f, Transform{Vector2 {RandomFloat((float)engine.GetRenderer().GetWidth()), RandomFloat((float)engine.GetRenderer().GetHeight())}}, model};
+    for (int i = 0; i < 4; i++) {
+        EnemyDesc enemyDesc;
+        enemyDesc.name = "Enemy";
+        enemyDesc.model = model;
+        enemyDesc.transform = Transform{ Vector2{ nu::RandomFloat((float)engine.GetRenderer().GetWidth()), RandomFloat((float)nu::engine.GetRenderer().GetHeight())}, 90.0f, 10.0f };
+        enemyDesc.speed = 2000.0f;
+        scene.AddActor(enemy);
+    }*/
 
     vector<Vector2> points;
 
     bool quit = false;
-
+    //MAIN LOOP
     while (!quit)
     {
         SDL_Event event;
@@ -34,13 +54,15 @@ int main(int argc, char* argv[])
                 event.key.scancode == SDL_SCANCODE_ESCAPE)
                 quit = true;
         }
-
+        //UPDATE
         engine.Update();
 
-        player.SetRotation(player.GetTransform().rotation + (engine.GetTime().GetDeltaTime() * 360.0f));
+        float dt = engine.GetTime().GetDeltaTime();
+
+        //player.SetRotation(player.GetTransform().rotation + (engine.GetTime().GetDeltaTime() * 360.0f));
 
         
-        player.Update(engine.GetTime().GetDeltaTime());
+        scene.Update(dt);
 
         if (engine.GetInput().GetButtonDown(Input::MouseButton::Left))
         {
@@ -76,10 +98,11 @@ int main(int argc, char* argv[])
             engine.GetRenderer().DrawLine(points[i].x, points[i].y, points[i + 1].x, points[i + 1].y);
         }
 
-        player.Draw(engine.GetRenderer());
+        scene.Draw(engine.GetRenderer());
 
         engine.GetRenderer().Present();
     }
+    //SHUTDOWN
 
     engine.Shutdown();
 

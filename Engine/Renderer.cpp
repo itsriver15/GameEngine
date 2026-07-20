@@ -89,11 +89,10 @@ void Renderer::DrawRect(float x, float y, float w, float h) const {
 
 void Renderer::DrawModel (const class Model& model, const struct Transform& transform) const
 {
-	//SetColor(model.GetColor().r, model.GetColor().g, model.GetColor().b, 1.0f);
-
-	SetColor(1.0f, 1.0f, 1.0f, 1.0f);
+	
 	for (auto mesh : model.GetMeshes()) {
 		auto& points = mesh.GetPoints();
+		SetColor(mesh.GetColor().r, mesh.GetColor().g, mesh.GetColor().b, 1.0f);
 
 
 		for (int i = 0; i + 1 < mesh.GetPoints().size(); i++) {

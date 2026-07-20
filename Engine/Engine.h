@@ -1,16 +1,22 @@
 #pragma once
 #include "pch.h"
+
 #include "Random.h"
 #include "Vector2.h"
-#include "Vector3.h"
-#include "Mesh.h"
+#include "MathUtils.h"
+#include "Transform.h"
+
+
 #include "Renderer.h"
 #include "Input.h"
 #include "GameTime.h"
-#include "MathUtils.h"
-#include "Transform.h"
+
 #include "Actor.h"
+#include "Enemy.h"
 #include "Player.h"
+#include "Mesh.h"
+#include "Scene.h"
+
 #include <iostream>
 #include <vector>
 
