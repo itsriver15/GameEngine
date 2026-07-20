@@ -5,6 +5,8 @@ namespace nu {
 	constexpr float Pi = 3.1415926535897932384626433832795f;
 	constexpr float TwoPi = 6.283185307179586476925286766559f;
 	constexpr float HalfPi = 1.5707963267948966192313216916398f;
+
+	constexpr float DegToRad = 180.0f / Pi;
 	
 	
 	template<typename T>
@@ -30,4 +32,5 @@ namespace nu {
 	T Clamp(T min, T max, T value) {
 		return (value < min) ? min : (value > max) ? max : value;
 	}
+
 }

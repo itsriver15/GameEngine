@@ -138,7 +138,7 @@ namespace nu {
 
         Vector2 Rotate(float radians) const {
             float x = this->x * cos(radians) - this->y * sin(radians);
-            float y = this->x * sin(radians) - this->y * cos(radians);
+            float y = this->x * sin(radians) + this->y * cos(radians);
 
             return { x, y };
         }

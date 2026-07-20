@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "Vector2.h"
 #include "Model.h"
+#include "MathUtils.h"
 #include <iostream>
 #include <string>
 #include <SDL3/SDL.h>
@@ -100,10 +101,13 @@ void Renderer::DrawModel (const class Model& model, const struct Transform& tran
 			Vector2 v2 = points.at(i + 1);
 
 			v1 *= transform.scale;
-			v1 *= transform.scale;
+			v2 *= transform.scale;
+
+			v1 = v1.Rotate(transform.rotation * DegToRad);
+			v2 = v2.Rotate(transform.rotation * DegToRad);
 
 			v1 += transform.position;
-			v1 += transform.position;
+			v2 += transform.position;
 			DrawLine(v1.x, v1.y, v2.x, v2.y);
 		}
 	}
