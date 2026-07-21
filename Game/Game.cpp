@@ -1,4 +1,5 @@
 #include <SDL3/SDL.h>
+#include <fmod.hpp>
 #include "../Engine/Engine.h"
 
 using namespace nu;
@@ -8,6 +9,33 @@ int main(int argc, char* argv[])
 {
     //INITALIZE
     engine.Initialize();
+    // create audio system
+    FMOD::System* audio;
+    FMOD::System_Create(&audio);
+
+    void* extradriverdata = nullptr;
+    audio->init(32, FMOD_INIT_NORMAL, extradriverdata);
+
+    vector<FMOD::Sound*> sounds;
+
+    FMOD::Sound* sound = nullptr;
+    audio->createSound("bass.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("clap.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("close-hat.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("cowbell.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("open-hat.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("snare.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
 
     Mesh mesh1{ {{ 0, -1 }, { 1, 0 }, { 0, 1 }, { 3, 0 }, { 0, -1 } }, { 0.694f, 0.0f, 1.0f } };
     Mesh mesh2{ {{ 0, -1 }, { -1, -2 }, { -3, 0 }, { -1, 2 }, { 0, 1 }}, {1.0f, 0.902f, 0.38f} };
@@ -40,6 +68,10 @@ int main(int argc, char* argv[])
     vector<Vector2> points;
 
     bool quit = false;
+
+    audio->createSound("test.wav", FMOD_DEFAULT, 0, &sound);
+
+    audio->playSound(sound, 0, false, nullptr);
     //MAIN LOOP
     while (!quit)
     {
@@ -56,6 +88,8 @@ int main(int argc, char* argv[])
         }
         //UPDATE
         engine.Update();
+        audio->update();
+
 
         float dt = engine.GetTime().GetDeltaTime();
 
@@ -63,6 +97,34 @@ int main(int argc, char* argv[])
 
         
         scene.Update(dt);
+
+        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_1))
+        {
+            audio->playSound(sounds[0], nullptr, false, nullptr);
+        }
+
+        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_2))
+        {
+            audio->playSound(sounds[1], nullptr, false, nullptr);
+        }
+        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_3))
+        {
+            audio->playSound(sounds[2], nullptr, false, nullptr);
+        }
+
+        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_4))
+        {
+            audio->playSound(sounds[3], nullptr, false, nullptr);
+        }
+        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_5))
+        {
+            audio->playSound(sounds[4], nullptr, false, nullptr);
+        }
+
+        if (engine.GetInput().GetKeyPressed(SDL_SCANCODE_6))
+        {
+            audio->playSound(sounds[5], nullptr, false, nullptr);
+        }
 
         if (engine.GetInput().GetButtonDown(Input::MouseButton::Left))
         {
