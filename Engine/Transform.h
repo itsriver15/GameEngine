@@ -1,5 +1,4 @@
 #pragma once
-#include "pch.h"
 #include "Vector2.h"
 
 namespace nu {
