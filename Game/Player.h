@@ -1,9 +1,10 @@
 #pragma once
-#include "Actor.h"
+#include "../Engine/Actor.h"
 
 struct PlayerDesc : public nu::ActorDesc {
 	float speed;
 	int ammo;
+
 };
 class Player : public nu::Actor {
 
@@ -17,9 +18,12 @@ public:
 	Player(float speed, const nu::Transform& transform, const Model& model) : Actor{ transform, model }, m_speed{ speed } {};
 
 	void Update(float dt) override;
-	void Draw(const Renderer& renderer) const override;
+	float GetSpeed() { return m_speed; }
+
 
 private:
 	int m_ammo = 0;
 	float m_speed = 0.0f;
+
+	
 };

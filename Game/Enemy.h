@@ -1,5 +1,5 @@
 #pragma once
-#include "Actor.h"
+#include "../Engine/Actor.h"
 struct EnemyDesc : public nu::ActorDesc {
 	int ammo = 0;
 	float speed = 0.0f;
@@ -7,8 +7,7 @@ struct EnemyDesc : public nu::ActorDesc {
 class Enemy : public nu::Actor {
 public:
 	Enemy() = default;
-	Enemy(const EnemyDesc& enemyDesc) : Actor{ enemyDesc } {
-		
+	Enemy(const EnemyDesc& enemyDesc) : Actor{ enemyDesc } {	
 		m_ammo = enemyDesc.ammo;
 		m_speed = enemyDesc.speed;
 	}
@@ -16,7 +15,7 @@ public:
 	Enemy(float speed, const nu::Transform& transform, const Model& model) : Actor{ transform, model }, m_speed{ speed } {};
 
 	void Update(float dt) override;
-	void Draw(const Renderer& renderer) const override;
+	float GetSpeed() { return m_speed; }
 
 private:
 	int m_ammo = 0;

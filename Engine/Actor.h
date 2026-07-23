@@ -1,15 +1,20 @@
 #pragma once
 #include "Transform.h"
+#include "Scene.h"
 #include "Renderer.h"
 #include "Model.h"
 #include <string>
 
 namespace nu {
+    class Scene;
+
     struct ActorDesc {
         std::string name;
         std::string tag;
         Transform transform;
         Vector2 velocity{ 0.0f,0.0f };
+        float damping{ 0.0f };
+        float lifespan{ 0 };
         Model model;
     };
     class Actor {
@@ -20,6 +25,8 @@ namespace nu {
             m_tag = actorDesc.tag;
             m_transform = actorDesc.transform;
             m_velocity = actorDesc.velocity;
+            m_damping = actorDesc.damping;
+            m_lifespan = actorDesc.lifespan;
             m_model = actorDesc.model;
         }
         Actor(const Transform& transform) : m_transform{ transform } {};
@@ -38,14 +45,23 @@ namespace nu {
         void AddVelocity(const Vector2& velocity) { m_velocity += velocity; }
 
         const std::string& GetName() const { return m_name; }
-        const std::string& GetTag() const { return m_tag; }
+        const std::string& GetTag() const { return m_tag; };
 
+        Scene* GetScene() const { return m_scene; }
+
+        friend Scene;
 
     protected:
         std::string m_name;
         std::string m_tag;
+
         Transform m_transform;
         Vector2 m_velocity{ 0.0f, 0.0f };
+        float m_damping{ 0.0f };
+        float m_lifespan{ 0 };
+        bool m_destroyed{ false };
+
+        Scene* m_scene =  nullptr;
         Model m_model;
     };
 };

@@ -12,8 +12,6 @@
 #include "File.h"
 
 #include "Actor.h"
-#include "Enemy.h"
-#include "Player.h"
 #include "Mesh.h"
 #include "Scene.h"
 
@@ -23,7 +21,7 @@
 namespace nu {
 	class Engine {
 	public:
-		Engine() = default;
+		static Engine& Get() { static Engine engine; return engine; }
 
 		bool Initialize();
 		void Shutdown();
@@ -35,9 +33,10 @@ namespace nu {
 
 		Time& GetTime() { return m_time; }
 	private:
+		Engine() = default;
+	protected:
 		Input m_input;
 		Renderer m_renderer;
-
 		Time m_time;
 	};
 	extern Engine engine;
