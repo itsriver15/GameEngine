@@ -19,27 +19,7 @@ int main(int argc, char* argv[])
     void* extradriverdata = nullptr;
     audio->init(32, FMOD_INIT_NORMAL, extradriverdata);
 
-    vector<FMOD::Sound*> sounds;
-
-    FMOD::Sound* sound = nullptr;
-    audio->createSound("bass.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("clap.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("close-hat.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("cowbell.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("open-hat.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("snare.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
+   
     //TEST FILESYSTEM
         // get current working directory
     std::cout << "Directory Operations:\n";
@@ -91,7 +71,27 @@ int main(int argc, char* argv[])
         std::cout << str << "\n";
     }
 
- 
+    vector<FMOD::Sound*> sounds;
+
+    FMOD::Sound* sound = nullptr;
+    audio->createSound("bass.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("clap.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("close-hat.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("cowbell.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("open-hat.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
+    audio->createSound("snare.wav", FMOD_DEFAULT, 0, &sound);
+    sounds.push_back(sound);
+
 
     Scene scene;
    
