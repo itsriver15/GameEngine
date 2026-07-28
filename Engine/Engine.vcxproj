@@ -160,6 +160,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="Audio.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="framework.h" />
@@ -177,10 +178,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="Audio.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="GameTime.cpp" />
     <ClCompile Include="Input.cpp" />
+    <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

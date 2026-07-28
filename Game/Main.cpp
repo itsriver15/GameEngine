@@ -4,20 +4,29 @@
 #include "Assets.h"
 #include "Player.h"
 #include "Enemy.h"
+#include <map>
 
 using namespace nu;
 using namespace std;
 
 int main(int argc, char* argv[])
 {
+    /*map<string, int> students;
+    students["Aiden"] = 16;
+    students["Jack"] = 17;
+    students["River"] = 15;
+
+    cout << students["Aiden"] << endl;
+
+    if (students.contains("Aiden")) {
+        cout << "found" << endl;
+    }*/
+
+
+
     //INITALIZE
     Engine::Get().Initialize();
     // create audio system
-    FMOD::System* audio;
-    FMOD::System_Create(&audio);
-
-    void* extradriverdata = nullptr;
-    audio->init(32, FMOD_INIT_NORMAL, extradriverdata);
 
    
     //TEST FILESYSTEM
@@ -39,58 +48,9 @@ int main(int argc, char* argv[])
     }
     std::cout << "\n";
 
-    // get filename info
-    if (!filenames.empty())
-    {
-        // get filename
-        std::string str = nu::GetFilename(filenames[0]);
-        std::cout << "Filename: " << str << "\n";
 
-        // get extension
-        str = nu::GetFileExtension(filenames[0]);
-        std::cout << "Extension: " << str << "\n";
-
-        // get filename no extension
-        str = nu::GetFilenameNoExtension(filenames[0]);
-        std::cout << "Filename No Extension: " << str << "\n\n";
-    }
-
-    // read and display text file
-    std::cout << "Text File Reading:\n";
-    std::string str;
-    if (nu::ReadTextFile("test.txt", str))
-    {
-        std::cout << str << "\n";
-    }
-
-    // write to text file
-    std::cout << "Text File Writing:\n";
-    nu::WriteTextFile("test.txt", "Hello, World!", true);
-    if (nu::ReadTextFile("test.txt", str))
-    {
-        std::cout << str << "\n";
-    }
-
-    vector<FMOD::Sound*> sounds;
-
-    FMOD::Sound* sound = nullptr;
-    audio->createSound("bass.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("clap.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("close-hat.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("cowbell.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("open-hat.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
-
-    audio->createSound("snare.wav", FMOD_DEFAULT, 0, &sound);
-    sounds.push_back(sound);
+   
+    Engine::Get().GetAudio().AddSound("test", "test.wav");
 
 
     Scene scene;
@@ -114,7 +74,7 @@ int main(int argc, char* argv[])
         enemyDesc.model = assets::playerModel;
         enemyDesc.transform = Transform{ Vector2{ nu::RandomFloat((float)Engine::Get().GetRenderer().GetWidth()), RandomFloat((float)nu::Engine::Get().GetRenderer().GetHeight())}, 90.0f, 10.0f };
         enemyDesc.damping = 3.0f;
-        enemyDesc.speed = RandomFloat(1000.0f, 2000.0f);
+        enemyDesc.speed = RandomFloat(500.0f, 1000.0f);
 
         Enemy* enemy = new Enemy{ enemyDesc };
         scene.AddActor(enemy);
@@ -124,9 +84,9 @@ int main(int argc, char* argv[])
 
     bool quit = false;
 
-    audio->createSound("test.wav", FMOD_DEFAULT, 0, &sound);
+    
 
-    audio->playSound(sound, 0, false, nullptr);
+  
     //MAIN LOOP
     while (!quit)
     {
@@ -143,7 +103,7 @@ int main(int argc, char* argv[])
         }
         //UPDATE
         Engine::Get().Update();
-        audio->update();
+        
 
 
         float dt = Engine::Get().GetTime().GetDeltaTime();
@@ -155,30 +115,7 @@ int main(int argc, char* argv[])
 
         if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_1))
         {
-            audio->playSound(sounds[0], nullptr, false, nullptr);
-        }
-
-        if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_2))
-        {
-            audio->playSound(sounds[1], nullptr, false, nullptr);
-        }
-        if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_3))
-        {
-            audio->playSound(sounds[2], nullptr, false, nullptr);
-        }
-
-        if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_4))
-        {
-            audio->playSound(sounds[3], nullptr, false, nullptr);
-        }
-        if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_5))
-        {
-            audio->playSound(sounds[4], nullptr, false, nullptr);
-        }
-
-        if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_6))
-        {
-            audio->playSound(sounds[5], nullptr, false, nullptr);
+            Engine::Get().GetAudio().PlaySound("test");
         }
 
         if (Engine::Get().GetInput().GetButtonDown(Input::MouseButton::Left))

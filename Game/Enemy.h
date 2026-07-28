@@ -17,6 +17,8 @@ public:
 	void Update(float dt) override;
 	float GetSpeed() { return m_speed; }
 
+	void OnCollision(Actor* other) override;
+
 private:
 	int m_ammo = 0;
 	float m_speed = 0.0f;

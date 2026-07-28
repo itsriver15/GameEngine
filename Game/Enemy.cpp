@@ -22,5 +22,16 @@ void Enemy::Update(float dt) {
 		AddVelocity(velocitiy * dt);
 
 		Actor::Update(dt);
+
+
+	}
+}
+
+void Enemy::OnCollision(Actor* other) {
+	std::cout << other->GetName() << endl;
+
+	if (other->GetTag() == "PlayerBullet") {
+		SetDestroyed();
+		other->SetDestroyed();
 	}
 }

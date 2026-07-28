@@ -25,7 +25,7 @@ void Player::Update(float dt){
     if (nu::Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_SPACE)) {
         BulletDesc desc;
         desc.name = "bullet";
-        desc.tag = "bullet";
+        desc.tag = "PlayerBullet";
         desc.model = bulletModel;
         desc.transform = m_transform;
         desc.speed = 4000.0f;
@@ -36,4 +36,12 @@ void Player::Update(float dt){
     };
 
     Actor::Update(dt);
+}
+
+void Player::OnCollision(Actor* other) {
+    std::cout << other->GetName() << endl;
+
+    if (other->GetTag() == "bullet") {
+        SetDestroyed();
+    }
 }

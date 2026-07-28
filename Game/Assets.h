@@ -3,5 +3,6 @@
 
 namespace assets {
 	extern Model playerModel;
+	extern Model enemyModel;
 	extern Model bulletModel;
 }

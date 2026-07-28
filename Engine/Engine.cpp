@@ -9,16 +9,19 @@ namespace nu {
 	bool Engine::Initialize() {
 		m_renderer.Initialize(1280, 1024);
 		m_input.Initialize();
+		m_audio.Initialize();
 
 		return true;
 	}
 	void Engine::Shutdown() {
 		m_input.Shutdown();
 		m_renderer.Shutdown();
+		m_audio.Shutdown();
 	}
 
 	void Engine::Update() {
 		m_input.Update();
+		m_audio.Update();
 		m_time.Tick();
 	}
 	

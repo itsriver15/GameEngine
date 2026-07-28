@@ -10,6 +10,7 @@
 #include "Input.h"
 #include "GameTime.h"
 #include "File.h"
+#include "Audio.h"
 
 #include "Actor.h"
 #include "Mesh.h"
@@ -32,9 +33,12 @@ namespace nu {
 		Renderer& GetRenderer() { return m_renderer; }
 
 		Time& GetTime() { return m_time; }
+		Audio& GetAudio() { return m_audio; }
+
 	private:
 		Engine() = default;
 	protected:
+		Audio m_audio;
 		Input m_input;
 		Renderer m_renderer;
 		Time m_time;

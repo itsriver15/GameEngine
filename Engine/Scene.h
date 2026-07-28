@@ -18,6 +18,9 @@ namespace nu {
 		template<typename T = Actor>
 		T* GetActorByName(const string& name);
 
+	private:
+		void UpdateCollisions();
+
 
 	private:
 		vector<Actor*> m_actors;
