@@ -59,7 +59,7 @@ int main(int argc, char* argv[])
 
     playerDesc.name = "Player";
     playerDesc.model = assets::playerModel;
-    playerDesc.transform = Transform{ Vector2{ 640.0f,512.0f }, 0.0f, 50.0f };
+    playerDesc.transform = Transform{ Vector2{ 640.0f,512.0f }, 0.0f, 20.0f };
     playerDesc.velocity = Vector2{ 0,0 };
     playerDesc.damping = 4.0f;
     playerDesc.speed = 2000.0f;

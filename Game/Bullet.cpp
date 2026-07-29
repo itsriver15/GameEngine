@@ -13,6 +13,19 @@ void Bullet::Update(float dt) {
 }
 
 void Bullet::OnCollision(Actor* other) {
-	SetDestroyed();
-	other->SetDestroyed();
+	
+	if (GetTag() == "PlayerBullet") {
+		if (other->GetName() == "Enemy") {
+			other->SetDestroyed();
+			SetDestroyed();
+		}
+	}
+	else if (GetTag() == "bullet") {
+		if (other->GetName() == "Player") {
+			other->SetDestroyed();
+			SetDestroyed();
+		}
+	}
+	
+	
 }

@@ -11,7 +11,7 @@ namespace nu {
 			//get mesh radius
 			float radius = mesh.GetRadius();
 			//if raidus is larger than current radius, radius is new raideus.
-			if (radius * m_radius) m_radius = radius;
+			if (radius > m_radius) m_radius = radius;
 		}
 	}
 }

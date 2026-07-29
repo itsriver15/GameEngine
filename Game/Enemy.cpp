@@ -28,7 +28,6 @@ void Enemy::Update(float dt) {
 }
 
 void Enemy::OnCollision(Actor* other) {
-	std::cout << other->GetName() << endl;
 
 	if (other->GetTag() == "PlayerBullet") {
 		SetDestroyed();
