@@ -19,7 +19,7 @@ public:
 		bool Initialize() override;
 
 		void Update(float dt) override;
-		void Draw(const Renderer& renderer) override;
+		void Draw(Renderer& renderer) override;
 
 		void OnPlayerDead();
 
@@ -38,7 +38,7 @@ public:
 		float m_stateTimer = 0.0f;
 
 		float m_spawnTimer = 0.0f;
-		float m_spawnTime = 5.0f;
+		float m_spawnTime = 3.0f;
 		int m_spawnCount = 0;
 
 		GameState m_gameState = GameState::Title;

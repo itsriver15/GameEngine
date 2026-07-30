@@ -33,7 +33,13 @@ void Enemy::OnCollision(Actor* other) {
 	if (other->GetTag() == "PlayerBullet") {
 		SetDestroyed();
 		other->SetDestroyed();
-		((SpaceGame*)m_scene->GetGame())->AddPoints(100);
+		cout << "Destroyed" << endl;
+		if (m_scene && m_scene->GetGame())
+		{
+			((SpaceGame*)m_scene->GetGame())->AddPoints(100);
+		}
+
+		Engine::Get().GetAudio().PlaySound("explosion");
 
 		// create particle explosion
 		for (int i = 0; i < 100; i++)

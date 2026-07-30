@@ -34,7 +34,8 @@ void Player::Update(float dt){
     }
 
     //fire
-    if (nu::Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_SPACE)) {
+    if (nu::Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_SPACE)) {
+        Engine::Get().GetAudio().PlaySound("laser");
         BulletDesc desc;
         desc.name = "PlayerBullet";
         desc.tag = "PlayerBullet";
@@ -50,9 +51,12 @@ void Player::Update(float dt){
     Actor::Update(dt);
 }
 
+
+
 void Player::OnCollision(Actor* other) {
     if (other->GetName() == "Enemy") {
         SetDestroyed();
         ((SpaceGame*)m_scene->GetGame())->OnPlayerDead();
     }
+    
 }

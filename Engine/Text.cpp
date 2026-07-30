@@ -35,7 +35,7 @@ bool Text::Create(Renderer& renderer, const std::string& text, const Color& colo
 	return true;
 }
 
-void Text::Draw(Renderer& renderer, int x, int y) {
+void Text::Draw(const Renderer& renderer, int x, int y) {
 	// get the texture width and height
 	float width, height;
 	bool success = SDL_GetTextureSize(m_texture, &width, &height);

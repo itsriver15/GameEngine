@@ -14,7 +14,7 @@ namespace nu {
         virtual void Shutdown() {}
 
         virtual void Update(float dt);
-        virtual void Draw(const Renderer& renderer);
+        virtual void Draw(Renderer& renderer);
 
         void SetScene(Scene* scene) { m_scene = scene; }
 

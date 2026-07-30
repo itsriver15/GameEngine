@@ -22,30 +22,12 @@ int main(int argc, char* argv[])
 
     //INITALIZE
     Engine::Get().Initialize();
+
     SpaceGame game;
     game.Initialize();
-
-    Scene scene;
-
-  
-    
-
-    Font* font = new Font();
-    font->Load("8-bit-limit/8bitlim.ttf", 100);
-    // create audio system
-
-    Text* text = new Text(font);
-    text->Create(Engine::Get().GetRenderer(), "Hello World", Color{ 1.0f, 1.0f, 1.0f });
-
-   
-    Engine::Get().GetAudio().AddSound("test", "test.wav");
-
-
-    vector<Vector2> points;
-
-    bool quit = false;
-  
+ 
     //MAIN LOOP
+    bool quit = false;
     while (!quit)
     {
         SDL_Event event;
@@ -60,27 +42,23 @@ int main(int argc, char* argv[])
                 quit = true;
         }
         //UPDATE
+        //ENGINE
         Engine::Get().Update();
 
         float dt = Engine::Get().GetTime().GetDeltaTime();
 
-
+        //GAME
         game.Update(dt);
-        scene.Update(dt);
         Engine::Get().GetPS().Update(Engine::Get().GetTime().GetDeltaTime());
 
-        if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_1)) {
-            Engine::Get().GetAudio().PlaySound("test");
-        }
 
+        //RENDER
         Engine::Get().GetRenderer().SetColor(0.0f, 0.0f, 0.0f);
         Engine::Get().GetRenderer().Clear();
 
         game.Draw(Engine::Get().GetRenderer());
-        scene.Draw(Engine::Get().GetRenderer());
-        text->Draw(Engine::Get().GetRenderer(), 400.0f, 400.0f);
-        Engine::Get().GetPS().Draw(Engine::Get().GetRenderer());
 
+        Engine::Get().GetPS().Draw(Engine::Get().GetRenderer());
         Engine::Get().GetRenderer().Present();
        
     }

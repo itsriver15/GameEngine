@@ -18,7 +18,15 @@ public:
 	Player(float speed, const nu::Transform& transform, const Model& model) : Actor{ transform, model }, m_speed{ speed } {};
 
 	void Update(float dt) override;
-	float GetSpeed() { return m_speed; }
+	void SetSpeed(float speed) override {
+		m_speed = speed;
+	} 
+
+	float GetSpeed() const override {
+		return m_speed;
+	}
+
+	
 
 	void OnCollision(Actor* other) override;
 

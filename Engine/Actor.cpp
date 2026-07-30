@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "Actor.h"
 #include "MathUtils.h"
+#include "Random.h"
 
 namespace nu {
     void Actor::Update(float dt) {
