@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "Player.h"
+#include "SpaceGame.h"
 #include "../Engine/Engine.h" 
 
 void Enemy::Update(float dt) {
@@ -32,5 +33,20 @@ void Enemy::OnCollision(Actor* other) {
 	if (other->GetTag() == "PlayerBullet") {
 		SetDestroyed();
 		other->SetDestroyed();
+		((SpaceGame*)m_scene->GetGame())->AddPoints(100);
+
+
+
+		// create particle explosion
+		for (int i = 0; i < 100; i++)
+		{
+			nu::Particle particle;
+			particle.position = m_transform.position;
+			particle.color = { 1.0f, 1.0f, 1.0f };
+			particle.lifespan = nu::RandomFloat(0.5f, 2.0f);
+			particle.velocity = { nu::RandomFloat(-600.0f, 600.0f), nu::RandomFloat(-600.0f, 600.0f) };
+
+			nu::Engine::Get().GetPS().AddParticle(particle);
+		}
 	}
 }

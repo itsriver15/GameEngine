@@ -5,7 +5,6 @@
 #include "MathUtils.h"
 #include <iostream>
 #include <string>
-#include <SDL3/SDL.h>
 using namespace nu;
 
 void Renderer::Initialize(int width, int height)
@@ -35,10 +34,16 @@ void Renderer::Initialize(int width, int height)
 
 	SDL_SetRenderVSync(renderer, 1);
 
+	if (!TTF_Init()) {
+		std::cerr << "TTF_Init Error: " << SDL_GetError() << std::endl;
+		SDL_Quit();
+	}
+
 
 }
 
 void Renderer::Shutdown() {
+	TTF_Quit();
 	if (renderer != nullptr) {
 		SDL_DestroyRenderer(renderer);
 	}

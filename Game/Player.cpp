@@ -1,4 +1,5 @@
 #include "../Engine/Engine.h"
+#include "SpaceGame.h"
 #include "Bullet.h"
 #include "Assets.h"
 #include "Player.h"
@@ -35,19 +36,20 @@ void Player::Update(float dt){
         m_scene->AddActor(bullet);
     };
 
+    nu::Particle particle;
+particle.position = m_transform.position;
+particle.color = { 1.0f, 1.0f, 1.0f };
+particle.lifespan = nu::RandomFloat(0.5f, 1.5f);
+particle.velocity = { nu::RandomFloat(-200.0f, 200.0f), nu::RandomFloat(-200.0f, 200.0f) };
+
+nu::Engine::Get().GetPS().AddParticle(particle);
+
     Actor::Update(dt);
 }
 
 void Player::OnCollision(Actor* other) {
-
-    std::cout << "Name: " << other->GetName()
-        << " Tag: " << other->GetTag() << std::endl;
-
-    std::cout << other->GetName() << endl;
-    if (other->GetTag() == "PlayerBullet") {
-        return;
-    }
-    if (other->GetTag() == "bullet") {
+    if (other->GetName() == "Enemy") {
         SetDestroyed();
+        ((SpaceGame*)m_scene->GetGame())->OnPlayerDead();
     }
 }

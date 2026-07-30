@@ -5,16 +5,21 @@
 #include "MathUtils.h"
 #include "Transform.h"
 
-
+//systems
 #include "Renderer.h"
 #include "Input.h"
 #include "GameTime.h"
 #include "File.h"
 #include "Audio.h"
+#include "ParticleSystem.h"
 
+#include "Text.h"
+
+//framework
 #include "Actor.h"
 #include "Mesh.h"
 #include "Scene.h"
+#include "Game.h"
 
 #include <iostream>
 #include <vector>
@@ -34,6 +39,7 @@ namespace nu {
 
 		Time& GetTime() { return m_time; }
 		Audio& GetAudio() { return m_audio; }
+		ParticleSystem& GetPS() { return m_ps; }
 
 	private:
 		Engine() = default;
@@ -42,6 +48,7 @@ namespace nu {
 		Input m_input;
 		Renderer m_renderer;
 		Time m_time;
+		ParticleSystem m_ps;
 	};
 	extern Engine engine;
 }

@@ -10,6 +10,14 @@ namespace nu {
 
 	}
 
+	void Scene::RemoveAllActors()
+	{
+		for (auto actor : m_actors) {
+			delete actor;
+		}
+		m_actors.clear();
+	}
+
 	void Scene::Update(float dt) {
 		//update actors
 		for (auto actor : m_actors) {

@@ -2,8 +2,8 @@
 #include "../Engine/Actor.h"
 
 struct PlayerDesc : public nu::ActorDesc {
-	float speed;
-	int ammo;
+	float speed = 0.0f;
+	int ammo = 0;
 
 };
 class Player : public nu::Actor {
