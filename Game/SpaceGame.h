@@ -39,7 +39,6 @@ public:
 
 		float m_spawnTimer = 0.0f;
 		float m_spawnTime = 3.0f;
-		int m_spawnCount = 0;
 
 		GameState m_gameState = GameState::Title;
 

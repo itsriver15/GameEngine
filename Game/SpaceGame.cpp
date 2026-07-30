@@ -62,10 +62,7 @@ void SpaceGame::Update(float dt)
 		if (m_spawnTimer <= 0.0f) {
 			m_spawnTimer = m_spawnTime;
 			SpawnEnemy();
-			m_spawnCount++;
-			if (m_spawnCount > 5) {
-				m_spawnTime -= 0.5f;
-			}
+			
 		}
 
 		if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_F)) {
