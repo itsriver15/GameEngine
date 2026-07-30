@@ -19,8 +19,19 @@ void Player::Update(float dt){
     nu::Vector2 forward{ 1.0f,0.0f };
     nu::Vector2 velocity = forward.Rotate((DegToRad * m_transform.rotation)) * thrust;
 
-
     AddVelocity(velocity * dt);
+ 
+        //particle system
+    if (Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_W)) {
+        nu::Particle particle;
+        particle.position = m_transform.position;
+        particle.color = { 1.0f, 1.0f, 1.0f };
+        particle.lifespan = RandomFloat(0.5f, 1.5f);
+        particle.velocity = { RandomFloat(-200.0f, 200.0f), RandomFloat(-200.0f, 200.0f) };
+
+   
+        Engine::Get().GetPS().AddParticle(particle);
+    }
 
     //fire
     if (nu::Engine::Get().GetInput().GetKeyDown(SDL_SCANCODE_SPACE)) {
@@ -28,21 +39,13 @@ void Player::Update(float dt){
         desc.name = "PlayerBullet";
         desc.tag = "PlayerBullet";
         desc.model = bulletModel;
-        desc.transform = m_transform;
-        desc.speed = 100.0f;
-        desc.lifespan = 2.0f;
+        desc.transform = Transform{ m_transform.position, m_transform.rotation, 5.0f };
+        desc.speed = 1000.0f;
+        desc.lifespan = 3.0f;
 
         Bullet* bullet = new Bullet{ desc };
         m_scene->AddActor(bullet);
     };
-
-    nu::Particle particle;
-particle.position = m_transform.position;
-particle.color = { 1.0f, 1.0f, 1.0f };
-particle.lifespan = nu::RandomFloat(0.5f, 1.5f);
-particle.velocity = { nu::RandomFloat(-200.0f, 200.0f), nu::RandomFloat(-200.0f, 200.0f) };
-
-nu::Engine::Get().GetPS().AddParticle(particle);
 
     Actor::Update(dt);
 }

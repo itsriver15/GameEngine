@@ -1,6 +1,7 @@
 #pragma once
 #include "Vector2.h"
 #include "Vector3.h"
+
 #include <vector>
 using namespace std;
 
@@ -34,5 +35,6 @@ namespace nu {
 	private:
 		// store particles in particle pool
 		vector<Particle> m_particles;
+
 	};
 }

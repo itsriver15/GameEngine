@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ParticleSystem.h"
+#include "Renderer.h"
 
 namespace nu {
 	bool ParticleSystem::Initialize(size_t size)
@@ -27,26 +28,28 @@ namespace nu {
 			particle.lifespan -= dt;
 
 			// set active if (particle.lifespan > 0);
-			particle.active = particle.lifespan > 0;
+			particle.active = (particle.lifespan > 0);
 
 			// update position with velocity (multiply by dt)
-			// TODO: update position += with particle velocity * delta time
-			GetFreeParticle();
+			
+			particle.position += particle.velocity * dt;
 		}
 	}
+
 	void ParticleSystem::Draw(const Renderer& renderer)
 	{
-		// draw all active particlee
+		// draw all active particles
 		for (auto& particle : m_particles)
 		{
 			if (particle.active)
 			{
 				// set particle color and draw point at current position
-				// TODO: set color with particle color
-				// TODO: draw point with particle position
+				renderer.SetColor(particle.color.r, particle.color.g, particle.color.b);
+				renderer.DrawPoint(particle.position.x, particle.position.y);
 			}
 		}
 	}
+
 	void ParticleSystem::AddParticle(const Particle& particle)
 	{
 		// get free particle
@@ -55,9 +58,9 @@ namespace nu {
 		if (freeParticle)
 		{
 			// set free particle object with particle
-			// TODO: dereference (*) free particle and set it to particle
+			*freeParticle = particle;
 			// set particle active
-			// TODO: set free particle active to true
+			freeParticle->active = true;
 		}
 	}
 
@@ -67,7 +70,7 @@ namespace nu {
 		for (auto& particle : m_particles)
 		{
 			// return pointer to inactive particle
-			if (particle.active)
+			if (!particle.active)
 				return &particle;
 		}
 

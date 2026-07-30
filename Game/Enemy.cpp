@@ -35,8 +35,6 @@ void Enemy::OnCollision(Actor* other) {
 		other->SetDestroyed();
 		((SpaceGame*)m_scene->GetGame())->AddPoints(100);
 
-
-
 		// create particle explosion
 		for (int i = 0; i < 100; i++)
 		{

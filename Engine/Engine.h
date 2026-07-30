@@ -39,7 +39,7 @@ namespace nu {
 
 		Time& GetTime() { return m_time; }
 		Audio& GetAudio() { return m_audio; }
-		ParticleSystem& GetPS() { return m_ps; }
+		ParticleSystem& GetPS() { return m_particleSystem; }
 
 	private:
 		Engine() = default;
@@ -48,7 +48,7 @@ namespace nu {
 		Input m_input;
 		Renderer m_renderer;
 		Time m_time;
-		ParticleSystem m_ps;
+		ParticleSystem m_particleSystem;
 	};
 	extern Engine engine;
 }
