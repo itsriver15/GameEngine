@@ -82,7 +82,7 @@ void SpaceGame::Update(float dt)
 		break;
 	case GameState::GameOver:
 		m_scene->RemoveAllActors();
-		if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_SPACE)) {
+		if (Engine::Get().GetInput().GetKeyPressed(SDL_SCANCODE_RETURN)) {
 			m_gameState = GameState::Title;
 		}
 		break;
