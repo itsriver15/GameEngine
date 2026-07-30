@@ -54,9 +54,40 @@ void Player::Update(float dt){
 
 
 void Player::OnCollision(Actor* other) {
+
+    Color color1 = { 1.0f, 1.0f, 1.0f };
+    Color color2 = { 0.0f, 1.0f, 1.0f };
+    Color color3 = { 1.0f, 0.0f, 1.0f };
+
+
     if (other->GetName() == "Enemy") {
         SetDestroyed();
         ((SpaceGame*)m_scene->GetGame())->OnPlayerDead();
+
+        for (int i = 0; i < 100; i++)
+        {
+            nu::Particle particle;
+            particle.position = m_transform.position;
+            int randomInt = RandomInt(0, 3);
+            switch (randomInt) {
+            case 0:
+                particle.color = color1;
+                break;
+            case 1:
+                particle.color = color2;
+                break;
+            case 2:
+                particle.color = color3;
+                break;
+            default:
+                particle.color = color1;
+                break;
+            }
+            particle.lifespan = nu::RandomFloat(0.5f, 2.0f);
+            particle.velocity = { nu::RandomFloat(-600.0f, 600.0f), nu::RandomFloat(-600.0f, 600.0f) };
+
+            nu::Engine::Get().GetPS().AddParticle(particle);
+        }
     }
     
 }
